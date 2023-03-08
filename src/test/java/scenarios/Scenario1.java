@@ -31,6 +31,9 @@ public class Scenario1 extends BaseTest{
         // 1.  https://demowebshop.tricentis.com/  sayfasina gidin
         HomePage homePage = new HomePage();
         homePage.open();
+
+
+
     }
 
 
