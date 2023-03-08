@@ -9,6 +9,7 @@ import utility.Driver;
 
 import java.text.MessageFormat;
 import java.time.Duration;
+import java.util.List;
 
 public class HomePage {
     private WebDriver driver;
@@ -25,14 +26,15 @@ public class HomePage {
 
 
     String url = "https://demowebshop.tricentis.com/";
-    String myUsername = "abc123@aa.com";
-    String myPassword = "123456";
+
 
     String sMainMenuLinks = "//div[@class=\"header-links\"]//a[contains(.,\"{0}\")]";
     By lLoginFormUsername = By.id("Email");
     By lLoginFormPassword = By.id("Password");
     By lLoginSubmitButton = By.cssSelector("input[value='Log in']");
-
+    By lSearchInput = By.id("small-searchterms");
+    By lSearchButton = By.cssSelector("input[value='Search']");
+    By lSearchedProducts = By.cssSelector(".search-results .item-box");
 
     // hint, 123
     public void open() {
@@ -48,9 +50,14 @@ public class HomePage {
     public boolean login(String username, String password) {
         By menuLocator = getLocatorMenuOf("Log in");
         click(menuLocator);
+        sendKeys(lLoginFormUsername, username);
+        sendKeys(lLoginFormPassword, password);
+        //click(lLoginSubmitButton);
+        pressEnter();
 
-
-        return false;
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(getLocatorMenuOf("Log out")));
+        int x = driver.findElements(getLocatorMenuOf("Log out")).size();
+        return x >= 1;
     }
 
     public void clickMenu(String menuText) {
@@ -67,8 +74,12 @@ public class HomePage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).sendKeys(textToSend);
     }
 
-    public int search(String textToSearch) {
-        return 0;
+    public List<WebElement> search(String textToSearch) {
+        sendKeys(lSearchInput, textToSearch);
+        click(lSearchButton);
+        wait.until(ExpectedConditions.titleContains("Search"));
+        //wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(lSearchedProducts, 0));
+        return driver.findElements(lSearchedProducts);
     }
 
     public int search(String textToSearch, String productText) {
@@ -81,6 +92,6 @@ public class HomePage {
 
 
     public void pressEnter() {
-
+        new Actions(driver).sendKeys(Keys.ENTER);
     }
 }

@@ -1,16 +1,22 @@
 package scenarios;
 
 import basetest.BaseTest;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import utility.Browsers;
 import utility.Driver;
 
-public class Scenario1 extends BaseTest{
+import java.util.List;
+
+public class Scenario1 {
 
     WebDriver driver;
     //WebDriver driver = Driver.getDriver(Browsers.EDGE);
-
+    String myUsername = "abc123@aa.com";
+    String myPassword = "123456";
     @Test
     public void scenario1(){
         /*
@@ -21,19 +27,33 @@ public class Scenario1 extends BaseTest{
                 homePage.login("username", "password");
                 homePage.search("mac");
                 gibi
-            3.  desktop aratin ve 6 ürün listelendigini assert edin
+            3.  comp aratin ve 7 ürün listelendigini assert edin
             4.  "Add to Cart" olan 4 ürün oldugunu assert edin.
                 Burada "Add to Cart" iceren ürün sayisini veren güzel bir xpath yazmalisiniz
          */
 
-        driver = Driver.getDriver(Browsers.EDGE);
-
-        // 1.  https://demowebshop.tricentis.com/  sayfasina gidin
-        HomePage homePage = new HomePage();
+        driver = Driver.getDriver();
+        HomePage homePage = new HomePage(Browsers.EDGE);
         homePage.open();
+        System.out.println(homePage.login(myUsername, myPassword));
 
+        List<WebElement> searhedProducts = homePage.search("comp");
+        int prods = searhedProducts.size();
+        Assert.assertEquals(prods, 7);
 
+        int addToCart = driver.findElements(By.cssSelector(".search-results  .item-box input")).size();
+        Assert.assertEquals(addToCart, 6);
 
+        Driver.getDriver().quit();
+
+    }
+
+    @Test
+    public void test2(){
+        HomePage hp = new HomePage(Browsers.EDGE);
+        hp.open();
+        hp.login(myUsername, myPassword);
+        Driver.getDriver().quit();
     }
 
 
