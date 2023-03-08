@@ -5,4 +5,3 @@ public enum Browsers {
     FIREFOX,
     EDGE;
 }
-
