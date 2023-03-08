@@ -28,7 +28,7 @@ public class HomePage {
 
     String sMainMenuLinks = "//div[@class=\"header-links\"]//a[contains(.,\"{0}\")]";
 
-    // hint
+    // hint, 123
     public void open(){
         driver.get(url);
 
